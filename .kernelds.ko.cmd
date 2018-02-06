@@ -1,0 +1,1 @@
+cmd_/home/utsab06/Desktop/Kernelmodule-/kernelds.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/utsab06/Desktop/Kernelmodule-/kernelds.ko /home/utsab06/Desktop/Kernelmodule-/kernelds.o /home/utsab06/Desktop/Kernelmodule-/kernelds.mod.o

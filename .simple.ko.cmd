@@ -1,0 +1,1 @@
+cmd_/home/utsab06/Desktop/Kernelmodule-/simple.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/utsab06/Desktop/Kernelmodule-/simple.ko /home/utsab06/Desktop/Kernelmodule-/simple.o /home/utsab06/Desktop/Kernelmodule-/simple.mod.o
