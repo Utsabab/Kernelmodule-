@@ -23,6 +23,9 @@ static void initialise_ht(void) {
 }
 
 static void addto_ht(struct birthday add_bday) {
+	struct list_head *pos, *q;
+	struct birthday *tmp;
+
         unsigned long hash = 5381;
         int c;
 	char* str = &add_bday.name[0];
@@ -30,22 +33,49 @@ static void addto_ht(struct birthday add_bday) {
         while (c = *str++)
             hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 	printk (KERN_INFO "%d %s", hash % 5, add_bday.name);
+
         list_add(&(add_bday.list), &(hasht[hash % 5].list));
+
+	printk(KERN_INFO "traversing the list using list_for_each()\n");
+	list_for_each(pos, &hasht[hash % 5].list) {
+			tmp = list_entry(pos, struct birthday, list);
+			printk(KERN_INFO "bucket= %d name= %s day= %d month= %d year=%d", hash % 5, tmp->name, tmp->day, tmp->month, tmp->year);
+		}
 }
 
+/**
 static void traverse_ht(void) {
+	struct list_head *pos, *q;
+	struct birthday *tmp;
+	
+	int i = 0;
+	printk(KERN_INFO "traversing the list using list_for_each()\n");
+	for (i; i<5; i++) {
+		
+		list_for_each(pos, &hasht[i].list) {
+			tmp = list_entry(pos, struct birthday, list);
+			printk(KERN_INFO "buckethead= %d name= %s day= %d month= %d year=%d", i, tmp->name, tmp->day, tmp->month, tmp->year);
+		}
+	}
+}
+**/
+
+/**
+static void delete_ht(void) {
 	struct list_head *pos, *q;
 	struct birthday *tmp;
 
 	int i = 0;
-	printk(KERN_INFO "traversing the list using list_for_each()\n");
 	for (i; i<5; i++) {
-		//list_for_each(pos, &hasht[i].list) {
-			//tmp = list_entry(pos, struct birthday, list);
-			//printk(KERN_INFO "bucket= %d name= %s day= %d month= %d year=%d", i, tmp->name, tmp->day, tmp->month, tmp->year);
-		//}
+		list_for_each_safe(pos, q, &hasht[i].list) {
+			tmp = list_entry(pos, struct birthday, list);
+			printk("freeing item name= %s day= %s month= %s year= %s, tmp->name, tmp->day, tmp->month, tmp->year");
+			list_del(pos);
+			kfree(tmp);
+			}
 	}
 }
+**/
 
 static int create_ht_init(void) {
 	struct birthday person1, person2, person3, person4, person5;
@@ -85,7 +115,7 @@ static int create_ht_init(void) {
 	addto_ht(person4);
 	addto_ht(person5);
 	
-	traverse_ht();
+	//traverse_ht();
 	return 0;
 }
 
