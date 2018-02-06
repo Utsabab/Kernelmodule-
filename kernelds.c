@@ -12,7 +12,7 @@ struct birthday {
     struct list_head list;
 };
 
-int main(int argc, char **argv) {
+int create_ll_init(void) {
 
 	struct birthday *person1, *person2, *person3;
 	struct birthday *tmp;
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 
 	struct birthday birthday_list;
 	INIT_LIST_HEAD(&birthday_list.list);
-	
+
 	person1 = kmalloc(sizeof(*person1), GFP_KERNEL);
 	person2 = kmalloc(sizeof(*person2), GFP_KERNEL);
 	person3 = kmalloc(sizeof(*person3), GFP_KERNEL);
@@ -64,7 +64,17 @@ int main(int argc, char **argv) {
 		kfree(tmp);
 	}
 	return 0;
-}
+}	
+	
+void simple_exit(void){
+	printk(KERN_INFO "Removing Module\n");
+	}
 
+module_init(create_ll_init);
+module_exit(simple_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("Kernelds Module");
+MODULE_AUTHOR("SGG");
 
 
